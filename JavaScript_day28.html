@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Asabeneh Day28 Exercises </title>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Alegreya:ital@0;1&family=Cinzel:wght@400;700&family=Cormorant+Garamond:ital,wght@1,500&family=PT+Serif:ital@1&family=Playfair+Display:ital@0;1&display=swap" rel="stylesheet">
+<script src='https://kit.fontawesome.com/a076d05399.js' >
+</script>
+
+
+
+<style>
+
+body{
+		padding:0;
+		margin:0;
+		font-size:12px;
+		}
+h1{
+		text-align:center;
+		color:hsl(300, 100%, 20%);
+		}
+span{
+		display:inline-block;
+		position: absolute;
+		background-color:green;
+		left:0;
+		top:0;
+		}
+.userInput{
+		margin:1pc auto;
+		width:80%;
+	 display:grid;
+	 grid-template-rows:30px 30px 40px;
+	 grid-template-columns:1fr 1fr 1fr 1fr;
+	 grid-gap:2px;
+		}
+input{
+		display:block;
+		padding:10px 5px;
+		border:.5px solid purple;
+		font-size:12px;
+		}
+.one{
+		grid-area:1/1/2/3;
+		}
+.two{
+		grid-area:1/3/2/5;
+		}
+.three{
+		grid-area:2/1/3/3;
+		}
+.four{
+		grid-area:2/3/3/5;
+		}
+.five{
+		grid-area:3/2/4/4;
+		align-self:center;
+		background:linear-gradient(30deg,hsl(300, 100%, 20%),hsl(300, 100%, 35%));
+		//background:linear-gradient(30deg,purple,hsl(300, 100%, 35%));
+		color:#f0f0f0;
+		}
+.req{
+		text-align:center;
+		color:red;
+		}
+.each_player{
+		position:relative;
+		padding:2px 5px;
+		width:calc(100% - 35px);
+		margin:1pc auto;
+		//background-color:#801f8f;
+		background-color:hsl(300, 100%, 27%);
+		display:grid;
+		grid-template-rows:1fr;
+		grid-template-columns:1fr 1fr 1fr 1fr;
+		color:#f0f0f0;
+		border-lef:4.5px solid orange;
+		}
+.date{
+		display:grid;
+		}
+.country{
+		align-self:center;
+		}
+.score{
+		align-self:center;
+		}
+.del_Add_Sub{
+		display:grid;
+		grid-template-rows:35px;
+		grid-template-columns:35px 35px 35px;
+		padding:2px;
+		grid-gap:3px;
+		align-content: center;
+		justify-content:center;
+		text-align:center;
+		color:#000;
+		}
+.del_Add_Sub > div{
+		background-color:#f0f0f0;
+		border-radius:50%;
+		line-height:35px;
+		}
+.far{
+		color:hsl(300, 100%, 20%);
+		font-size:13px;
+		}
+
+
+
+
+
+@media (min-width:768px){
+.userInput{
+		display:grid;
+		width:calc(70% - 30px);
+		grid-template-rows:30px;
+		grid-template-columns:19.5% 19.5% 19.5% 19.5% 19.5%;
+		padding:10px;
+		grid-gap:5px;
+		}
+input{
+		width:max-width;
+		}
+.one{
+		grid-area:1/1/2/2;
+		}
+.two{
+		grid-area:1/2/2/3;
+		}
+.three{
+		grid-area:1/3/2/4;
+		}
+.four{
+		grid-area:1/4/2/5;
+		}
+.five{
+		grid-area:1/5/2/6;
+		}
+.all_players{
+		width:70%;
+		margin:auto;
+		}		
+.each_player{
+		padding:10px;
+		}
+		
+	}
+
+
+
+
+</style>
+
+
+</head>
+
+<body style="align:center; font-family:Alegreya">
+
+
+<h1>30 Days of JavaScript Challenge Leaderboard</h1>
+
+<section class="userInput">
+  <input id="firstname" class="one" type="text" placeholder="First Name"/>
+  <input id="lastname" class="two" type="text" placeholder="Last Name"/>
+  <input id="playercountry" class="three" type="text" placeholder="Country"/>
+  <input id="playerscore" class="four" type="number" placeholder="Player Score"/>
+  <input id="add" class="five" type="submit" value="Add Player"/>
+</section>
+
+<section>
+  <div class="req"></div>
+</section>
+
+</body>
+
+<script>
+
+let addPlayerButton = document.querySelector("#add")
+
+const addedPlayerDate = () => {
+ let date = new Date()
+	let monthNames = ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];
+        let year = date.getFullYear();
+        let day = date.getDate();
+        let month = date.getMonth();
+        let hour = date.getHours();
+        let minute = date.getMinutes();
+   
+        if(day < 10){
+            day = `0${day}`}
+        if(hour < 10){
+            hour = `0${hour}`}
+        if(minute< 10){
+            minute = `0${minute}`}
+
+  return `${monthNames[month-1]} ${day},${year} ${hour}:${minute}`
+		}
+addedPlayerDate()
+
+
+let playersInfo = [
+   {name:"MARTHA YOHANES", country:"FINLAND", score:85, date:addedPlayerDate()},
+  	{name:"DAVID SMITH", country:"UNITED KINGDOM", score:80, date:addedPlayerDate()},
+   {name:"ASABENEH YETAYEH", country:"FINLAND", score:75, date:addedPlayerDate()},
+   {name:"MATHIAS ELIAS",country:"SWEDEN", score:70, date:addedPlayerDate()}]
+
+
+
+const createInitialPlayers = () => {
+		
+allPlayers = document.createElement("article")
+let sortPlayersInfo = playersInfo.sort((a,b) => {
+		return b.score - a.score
+		})
+
+	sortPlayersInfo.forEach(player => {
+		
+  	let 	eachPlayer = document.createElement("section")
+	 let partPlayer = document.createElement("div")
+  	let playerName = document.createElement("div")
+  	let playerDate = document.createElement("div")
+  	let playerCountry = document.createElement("div")
+  	let playerScore = document.createElement("div")
+  	let delAddSub = document.createElement("div")
+  	let del = document.createElement("div")
+  	let add = document.createElement("div")
+  	let sub = document.createElement("div")
+  	
+del.addEventListener("click", () => {	playersInfo.splice(playersInfo.indexOf(player),1)
+allPlayers.innerHTML =""
+createInitialPlayers()
+		})  	
+
+add.addEventListener("click", () => {	
+player.score += 5
+allPlayers.innerHTML =""
+createInitialPlayers()
+		})  	
+
+sub.addEventListener("click", () => {	
+player.score -= 5
+allPlayers.innerHTML =""
+createInitialPlayers()
+		})  	
+
+  	
+allPlayers.setAttribute("class","all_players")
+eachPlayer.setAttribute("class","each_player")
+partPlayer.setAttribute("class","date")
+playerName.setAttribute("class","name")
+playerDate.setAttribute("class","date")
+playerCountry.setAttribute("class","country")
+playerScore.setAttribute("class","score")
+delAddSub.setAttribute("class","del_Add_Sub")
+  		
+		
+		playerName.innerText = player.name
+		playerCountry.innerText = player.country
+		playerScore.innerText = player.score
+		playerDate.innerText = player.date
+		
+		
+		del.innerHTML = "<i class='far fa-trash-alt'></i>"
+		add.innerText = "+5"
+		sub.innerText = "-5"	
+		
+		
+		eachPlayer.appendChild(partPlayer)
+		partPlayer.appendChild(playerName)
+		partPlayer.appendChild(playerDate)
+		
+		
+		eachPlayer.appendChild(playerCountry)
+		eachPlayer.appendChild(playerScore)
+		eachPlayer.appendChild(delAddSub)
+		
+		
+		delAddSub.appendChild(del)
+		delAddSub.appendChild(add)
+		delAddSub.appendChild(sub)
+	 
+		allPlayers.appendChild(eachPlayer)
+		})
+document.body.appendChild(allPlayers)
+	}
+createInitialPlayers()
+
+
+
+const addPlayer = () => {
+		let req = document.querySelector(".req")
+		let firstName = document.querySelector("#firstname").value
+		let lastName = document.querySelector("#lastname").value
+		let playerCountry = document.querySelector("#playercountry").value
+		let playerScore = document.querySelector("#playerscore").value
+		
+		
+		if([firstName, lastName, playerCountry,  playerScore].some(val => {
+      return  typeof val === 'string' && val.trim() === ''
+				})){
+				req.innerText = "All fields are required"
+				}else{
+						playersInfo.push({
+								"name":firstName + " " + lastName,
+								"country":playerCountry,
+								"score":+playerScore,
+								"date":addedPlayerDate()
+								})
+				req.innerText =""
+						}
+	allPlayers.innerHTML =""
+	createInitialPlayers()	
+		}
+
+addPlayerButton.addEventListener("click",addPlayer)
+
+
+
+
+
+</script>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
